@@ -1,0 +1,21 @@
+{
+  "name": "bj-swiper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antoniofregoso/bj-swiper.git"
+  },
+  "author": "Antonio Fregoso <antoniofregoso@protonmail.com>",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "esbuild": "^0.19.4"
+  },
+  "dependencies": {
+    "swiper": "^10.3.1"
+  }
+}
