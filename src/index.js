@@ -1,1 +1,1 @@
-export * from './SwiperElement';
+export * from './components/SwiperElement';
