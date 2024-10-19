@@ -1,1 +1,1 @@
-export * from './components/SwiperElement';
+export * from './components/MultiSlider';

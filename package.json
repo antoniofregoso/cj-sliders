@@ -1,6 +1,6 @@
 {
   "name": "@buyerjourney/bj-sliders",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "Integration of the Swiper library to the BuyerJourney.js project",
   "main": "scr/index.js",
   "module": "src/index.js",

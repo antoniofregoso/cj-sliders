@@ -14,7 +14,7 @@ Integration of the Swiper library from the BuyerJourney.js project in javascript
 - Stackable siders with independent characteristics between them.
 ## Documentation 
 - [BuyerJourneyJS project](https://buyerjourney.ninja/).
-- [bj-sliders](https://buyerjourney.ninja/sliders).
+- [bj Libraries](https://buyerjourney.ninja/libraries).
 - [Get started](https://buyerjourney.ninja/get-started).
 ## License
 bj-sliders is [GPL-3.0-or-later](./LICENSE).
