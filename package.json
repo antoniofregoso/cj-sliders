@@ -1,5 +1,5 @@
 {
-  "name": "@customerjourney/bj-sliders",
+  "name": "@customerjourney/cj-sliders",
   "version": "0.10.0",
   "description": "Integration of the Swiper library to the CustomerJourney.js project",
   "main": "scr/index.js",
