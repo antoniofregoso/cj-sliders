@@ -1,4 +1,4 @@
-# bj-sliders
+# cj-sliders
 Integration of the Swiper library from the CustomerJourney.js project in javascript with a delicious vanilla flavor
 ## Features
 - Integrates the best features of swiper.
