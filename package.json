@@ -1,7 +1,7 @@
 {
-  "name": "@buyerjourney/bj-sliders",
-  "version": "0.9.1",
-  "description": "Integration of the Swiper library to the BuyerJourney.js project",
+  "name": "@customerjourney/bj-sliders",
+  "version": "0.10.0",
+  "description": "Integration of the Swiper library to the CustomerJourney.js project",
   "main": "scr/index.js",
   "module": "src/index.js",
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/antoniofregoso/bj-swiper.git"
+    "url": "git+https://github.com/antoniofregoso/cj-sliders.git"
   },
   "author": "Antonio Fregoso <antoniofregoso@protonmail.com>",
   "license": "GPL-3.0-or-later",
@@ -19,14 +19,14 @@
     "esbuild": "^0.19.4"
   },
   "dependencies": {
-    "swiper": "^10.3.1",
-    "@buyerjourney/bj-core": "^1.0.1",
-    "remarkable": "^2.0.1"
+    "@customerjourney/cj-core": "^1.4.2",
+    "remarkable": "^2.0.1",
+    "swiper": "^11.2.10"
   },
   "bugs": {
-    "url": "https://github.com/antoniofregoso/bj-sliders/issues"
+    "url": "https://github.com/antoniofregoso/cj-sliders.git/issues"
   },
-  "homepage": "https://buyerjourney.ninja/sliders",
+  "homepage": "https://customerjourney.ninja/documentation/sliders/",
   "keywords": [
     "vanilla-javascripts",
     "components",

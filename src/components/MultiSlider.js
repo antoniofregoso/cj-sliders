@@ -1,5 +1,5 @@
-import { AppElement } from "@buyerjourney/bj-core";
-import { BjSwiper } from "./BjSwiper";
+import { AppElement } from "@customerjourney/cj-core";
+import { CjSwiper } from "./CjSwiper";
 
 export class MultiSlider extends AppElement {
 
@@ -13,19 +13,16 @@ export class MultiSlider extends AppElement {
         this.eventName = "user:click-multi-slider";
         this.state =this.initState(this.#defaultData,props);
         this.getAttribute("id")||this.setAttribute("id",this.state.id||`component-${Math.floor(Math.random() * 100)}`);
-        this.swiper = new BjSwiper();
+        this.swiper = new CjSwiper();
     }
 
     #ballsStyles = /*CSS*/`
-    .swiper-pagination-bullet {
-      width: 20px;
-      height: 20px;
+    .swiper-pagination-bullet-big {
+      width: 20px !important;
+      height: 20px !important;
       text-align: center;
       line-height: 20px;
       font-size: 12px;
-    }
-    .swiper-pagination-bullet-active {
-      color: ;#fff
     }
     `;
 
@@ -80,6 +77,10 @@ export class MultiSlider extends AppElement {
       max-width: 400px;
       line-height: 1.3;
     }
+    .swiper-slide-parallax .subtitle {
+      max-width: 400px;
+      line-height: 1.3;
+    }
     `;
 
     #default = /*CSS*/`x
@@ -92,13 +93,13 @@ export class MultiSlider extends AppElement {
       }    
     `;
 
-    #GetStyles(sliders=[]){
+    #GetStyles(swipers=[]){
         let stylesList = {fade:false,cube:false,coverflow:false,flip:false, cards:false,parallax:false}
         let stylesSetup = '';
-        if (sliders.length>0){
-            sliders.forEach(slider=>{
-                if (slider.setup?.effect!=undefined){
-                    let effect = slider.setup.effect
+        if (swipers.length>0){
+            swipers.forEach(swiper=>{
+                if (swiper.setup?.effect!=undefined){
+                    let effect = swiper.setup.effect
                     if (stylesList[effect]===false){
                         stylesList[effect]=true;
                             switch(effect){
@@ -109,10 +110,10 @@ export class MultiSlider extends AppElement {
                                     stylesSetup+= this.#coverflowStyles;
                                     break;
                                 case 'parallax':
-                                    stylesSetup+=`.swiper-parallax { width: 100%; height: ${slider.setup?.height||'600px'}; background: #000;}`;
+                                    stylesSetup+=`.swiper-parallax { width: 100%; height: ${swiper.setup?.height||'600px'}; background: #000;}`;
                                     stylesSetup+= this.#parallax;
                                 default:
-                                  stylesSetup+=`.swiper-slide-default {background-position: center;background-size: cover; height: ${slider.setup?.height||'600px'};}`;
+                                  stylesSetup+=`.swiper-slide-default {background-position: center;background-size: cover; height: ${swiper.setup?.height||'600px'};}`;
                                     stylesSetup+= this.#default;
                             }
                     }
@@ -125,13 +126,13 @@ export class MultiSlider extends AppElement {
     render(){
         this.innerHTML =  /* html */`        
             <style>
-                ${this.state?.balls==true?this.#ballsStyles:''}
-                ${this.#GetStyles(this.state.sliders)}
+                ${this.#ballsStyles}
+                ${this.#GetStyles(this.state.swipers)}
             </style>
         <section ${this.getClasses(["section"], this.state?.classList)} ${this.setAnimation(this.state.animation)} ${this.getBackground()}>
             <div class="container py-4">
                 ${this.getTitles()}
-                ${this.swiper.render(this.state.sliders, this.state.context)}
+                ${this.swiper.render(this.state.swipers, this.state.context)}
             </div>
         </section>
         `;

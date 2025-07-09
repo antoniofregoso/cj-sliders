@@ -4,7 +4,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Remarkable } from "remarkable";
 
-export class BjSwiper {
+export class CjSwiper {
 
     constructor(context= {lang:"en"}){
         this.context = context;
@@ -30,16 +30,15 @@ export class BjSwiper {
                 ${item.content!=undefined?`
                 <div class="is-overlay" style="padding:5%;">
                     <div ${this.#getClasses([""], item.content?.classList)} style="width:50%; padding:3%; position: relative; top: 50%; -webkit-transform: translateY(-50%); -ms-transform: translateY(-50%);transform: translateY(-50%);">
-                    ${item.content?.title?.text[this.context.lang]!=undefined?`
-                    <p ${this.#getClasses(["title"], item.title?.classList)}>${item.content.title.text[this.context.lang]}</p>
-                    `:'' }
-                    ${item.content?.subtitle?.text[this.context.lang]!=undefined?`
-                    <p ${this.#getClasses(["subtitle"], item.subtitle?.classList)}>${item.content.subtitle.text[this.context.lang]}</p>
-                    `:'' }
-                    ${item.content?.description?.text[this.context.lang]!=undefined?`
-                    <div ${this.#getClasses(["content"], item.content?.classList)}>${this.md.render(item.content.description.text[this.context.lang])}</div>
-                    `:'' }                    
-                    ${item.content?.buttons!=undefined?this.#buttonsRender(item.content.buttons):''} 
+                        ${item.content?.title?.text[this.context.lang]!=undefined?`
+                        <p ${this.#getClasses(["title"], item.content.title?.classList)}>${item.content.title.text[this.context.lang]}</p>
+                        `:'' }
+                        ${item.content?.subtitle?.text[this.context.lang]!=undefined?`
+                        <p ${this.#getClasses(["subtitle"], item.content.subtitle?.classList)}>${item.content.subtitle.text[this.context.lang]}</p>
+                        `:'' }
+                        ${item.content?.description?.text[this.context.lang]!=undefined?`
+                        <div ${this.#getClasses(["content"], item.content.description?.classList)}>${this.md.render(item.content.description.text[this.context.lang])}</div>
+                        `:'' } 
                     </div>
                 </div>                    
                     `:''}
@@ -70,34 +69,6 @@ export class BjSwiper {
         return classes;
     }
 
-      /**
-     * Create the CTA buttons of the component from the props sent
-     * @param {Object} props 
-     */
-    #getButtons(props){
-        if(props!=undefined){
-            let buttons = '';
-            props.forEach(el=>{
-                buttons += `<${el.href!=undefined?'a':'button'} id="${el.id}" ${this.#getClasses(['button',"m-2"], el.classList)} ${el.href!=undefined?`href="${el.href}"`:''}>${el?.text[this.context.lang]}</${el.href!=undefined?'a':'button'}>`;
-            })
-            return buttons;
-        }else return ''
-    }
-   
-    /**
-     * Generate the CTA button container and insert the buttons described in the props
-     * @param {Object} props 
-     */
-    #buttonsRender(props){
-        if(props!=undefined){
-            let buttons = /* html */`
-                <div ${props.align==='center'?'style="text-align: center;"':props.align==='right'?'style="text-align: right;"':''}>
-                    ${this.#getButtons(props.buttons)}
-                </div>
-            `
-           return buttons;
-        }else return '';
-    }
 
     #getFooter(props){
         if(props!=undefined){
@@ -126,7 +97,7 @@ export class BjSwiper {
                     ${item.image?.src!=undefined?`
                     <div class="card-image">
                         <figure ${this.#getClasses(["image"], item.image.classList)} >
-                            ${item.image?.src!=undefined?item.image.src.includes("https://www.youtu")?this. #getYoutube(item.image.src):`<img src="${item.image.src}" />`:''}
+                            ${item.image?.src!=undefined?item.image.src.includes("youtu")?this. #getYoutube(item.image.src):`<img src="${item.image.src}" />`:''}
                         </figure>
                     </div>
                         `:''}
@@ -150,7 +121,7 @@ export class BjSwiper {
                       </div>  
                         `:''}
                         ${item.footer?.buttons!=undefined?`
-                            <footer class="card-footer">
+                            <footer ${this.#getClasses(["card-footer"], item.footer?.classList)}>
                                  ${this.#getFooter(item.footer.buttons)}
                             </footer>
                                 `:''}
@@ -167,7 +138,7 @@ export class BjSwiper {
         if (swiper.slides.length>0&&swiper.slides!=undefined){
             swiper.slides.forEach((item)=>{
                 let slide = /*html*/`
-                <div class="swiper-slide${swiper.setup?.effect!=undefined?` swiper-slide-${swiper.setup.effect}`:''}" >
+                <div class="swiper-slide swiper-slide-parallax" >
                     ${item.title?.text[this.context.lang]!=undefined?`
                     <div class="title" data-swiper-parallax="-300"> ${item.title.text[this.context.lang]}</div>`:''}
                     ${item.subtitle?.text[this.context.lang]!=undefined?`
@@ -177,7 +148,6 @@ export class BjSwiper {
                         ${this.md.render(item.description.text[this.context.lang])}
                     </div>
                         `:''}
-                     ${item.buttons!=undefined?this.#buttonsRender(item.buttons):''} 
                 </div>
                 `;
                 slidesHtml += slide;
@@ -194,12 +164,12 @@ export class BjSwiper {
                 let effect = swiper.setup?.effect||'default';
                 let navigationColor = swiper.setup.navigationColor||'#ffffff';
                 let paginationColor = swiper.setup.paginationColor||'#ffffff';
-                let navigationBelow = swiper.setup.paginationBelow||false;
+                let paginationGap = swiper.setup.paginationGap||false;
                 let layout = /*html*/`
                 <div style="--swiper-navigation-color: ${navigationColor}; --swiper-pagination-color: ${paginationColor}" class="swiper ${swiper.id}${swiper.setup?.effect!=undefined?` swiper-${swiper.setup.effect}`:''}">
                     ${effect==='parallax'?`
-                    <div class="bjs-parallax-bg" style="background-image: url(${swiper.setup.imgSrc});" data-swiper-parallax="-23%"></div>`:''}
-                    <div class="swiper-wrapper"${navigationBelow===true?' style="margin-bottom:30px;"':''}>
+                    <div class="bjs-parallax-bg" style="background-image: url(${swiper.setup.parallaxImage});" data-swiper-parallax="-23%"></div>`:''}
+                    <div class="swiper-wrapper"${paginationGap===true?' style="margin-bottom:30px;"':''}>
                         ${cards==true?this.#getCards(swiper):effect==='parallax'?this.#getParallax(swiper):this.#getSlides(swiper)}
                     </div>
                 ${swiper.setup?.navigation==true?`
@@ -294,6 +264,9 @@ export class BjSwiper {
             setup.parallax = true;
         } 
         switch(props.effect){ 
+            case 'parallax':
+                setup.parallax = true;
+
             case 'fade':
                 setup.effect = 'fade';
                 setup.spaceBetween = 30;
