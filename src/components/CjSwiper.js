@@ -3,6 +3,8 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Remarkable } from "remarkable";
+import { icon } from "@fortawesome/fontawesome-svg-core";
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 export class CjSwiper {
 
@@ -49,7 +51,7 @@ export class CjSwiper {
         return slidesHtml
     }
 
-     /**
+    /**
      * Add the additional classes sent to the component props
      * 
      * @param {string} defaultClass 
@@ -102,7 +104,7 @@ export class CjSwiper {
                     </div>
                         `:''}
                     ${item.content!=undefined?`
-                      <div class="card-content">
+                        <div class="card-content">
                         ${item.content?.title?.text[this.context.lang]!=undefined?`
                         <p ${this.#getClasses(["title"], item.content?.title?.classList)}>
                             ${item.content.title.text[this.context.lang]}
@@ -118,15 +120,68 @@ export class CjSwiper {
                             ${this.md.render(item.content.description.text[this.context.lang])}
                         </div>
                         `:''}
-                      </div>  
+                        </div>  
                         `:''}
                         ${item.footer?.buttons!=undefined?`
                             <footer ${this.#getClasses(["card-footer"], item.footer?.classList)}>
-                                 ${this.#getFooter(item.footer.buttons)}
+                                ${this.#getFooter(item.footer.buttons)}
                             </footer>
                                 `:''}
                 </div> 
                 `;
+                slidesHtml += slide;
+            });
+        }
+        return slidesHtml
+    }
+
+    #star = icon(faStar, {classes: ['fa-xs','has-text-dark']}).html[0];
+    #starOk = icon(faStar, {classes: ['fa-xs','has-text-warning']}).html[0];
+
+    #getStars(rating){
+        let stars = '';
+        let noSelected = 5 - rating;
+        if (rating>0){
+            for (let i = 1; i <= rating; i++) {
+                stars+= `<span class="icon">${this.#starOk}</span>`;
+                }
+            }
+        if (noSelected>0){
+            for (let i = 1; i <= noSelected; i++) {
+                stars+= `<span class="icon">${this.#star}</span>`;
+                }
+            }
+        return stars;
+        }
+    
+
+    #getMediaObjects(swiper={}){
+        let slidesHtml = '';
+        if (swiper.slides.length>0&&swiper.slides!=undefined){
+            swiper.slides.forEach((item)=>{
+                let slide =`
+                <div class="swiper-slide${swiper.setup?.effect!=undefined?` swiper-slide-${swiper.setup.effect}`:''}">
+                <div class="media">
+                ${item.imageL?.src!=undefined?`
+                <figure class="media-left">
+                    <p class="image is-64x64">
+                    <img src="${item.imageL.src}" />
+                    </p>
+                </figure>`:''}
+                <div class="media-content">
+                    <div ${this.#getClasses(["content"], item.description?.classList)}>
+                        ${item.review?.rating!=undefined?`<span class="icon-text">${this.#getStars(item.review.rating)}${item.review?.text[this.context.lang]!=undefined?`<span>${item.review?.text[this.context.lang]}</span>`:''}</span>`:''}
+                        ${item.description?.text[this.context.lang]!=undefined?`${this.md.render(item.description.text[this.context.lang])}`:''}
+                    </div>
+                </div>
+                ${item.imageR?.src!=undefined?`
+                <figure class="media-right">
+                    <p class="image is-64x64">
+                    <img src="${item.imageR.src}" />
+                    </p>
+                </figure>`:''}
+                </div>
+                </div>`;
                 slidesHtml += slide;
             });
         }
@@ -161,22 +216,33 @@ export class CjSwiper {
         if (this.state!=undefined&&Object.keys(this.state).length>0){
             this.state.forEach((swiper)=>{
                 let cards = swiper.setup?.cards||false;
+                let mediaObjects = swiper.setup?.mediaObjects||false;
                 let effect = swiper.setup?.effect||'default';
                 let navigationColor = swiper.setup.navigationColor||'#ffffff';
                 let paginationColor = swiper.setup.paginationColor||'#ffffff';
                 let paginationGap = swiper.setup.paginationGap||false;
+                let result;
+                if (cards === true) {
+                    result = this.#getCards(swiper);
+                } else if (mediaObjects === true) { 
+                    result = this.#getMediaObjects(swiper);
+                } else if (effect === 'parallax') {
+                    result = this.#getParallax(swiper);
+                } else {
+                    result = this.#getSlides(swiper);
+                }
                 let layout = /*html*/`
                 <div style="--swiper-navigation-color: ${navigationColor}; --swiper-pagination-color: ${paginationColor}" class="swiper ${swiper.id}${swiper.setup?.effect!=undefined?` swiper-${swiper.setup.effect}`:''}">
                     ${effect==='parallax'?`
                     <div class="bjs-parallax-bg" style="background-image: url(${swiper.setup.parallaxImage});" data-swiper-parallax="-23%"></div>`:''}
                     <div class="swiper-wrapper"${paginationGap===true?' style="margin-bottom:30px;"':''}>
-                        ${cards==true?this.#getCards(swiper):effect==='parallax'?this.#getParallax(swiper):this.#getSlides(swiper)}
+                        ${result}
                     </div>
                 ${swiper.setup?.navigation==true?`
                     <div class="swiper-button-next swiper-button-next-${swiper.id}"></div>
                     <div class="swiper-button-prev swiper-button-prev-${swiper.id}"></div>    
                         `:''}
-                     ${swiper.setup?.pagination!=undefined?`<div class="swiper-pagination swiper-pagination-${swiper.id}"></div>`:''}
+                    ${swiper.setup?.pagination!=undefined?`<div class="swiper-pagination swiper-pagination-${swiper.id}"></div>`:''}
                 </div>
                 `;
                 swipersHtml += layout;
@@ -210,7 +276,7 @@ export class CjSwiper {
         depth: 100,
         modifier: 1,
         slideShadows: true,
-      }
+        }
 
     #getSwiperConfig(props){
         let setup = {lazy:true}
@@ -218,7 +284,7 @@ export class CjSwiper {
             setup.navigation = {
                 nextEl:  `.swiper-button-next-${props.id}`,
                 prevEl:  `.swiper-button-prev-${props.id}`,
-              }
+                }
         }
         if (props.pagination!=undefined){
             let pagination = {el: `.swiper-pagination-${props.id}`}
