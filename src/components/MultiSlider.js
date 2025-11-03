@@ -130,7 +130,7 @@ export class MultiSlider extends AppElement {
                 ${this.#GetStyles(this.state.swipers)}
             </style>
         <section ${this.getClasses(["section"], this.state?.classList)} ${this.setAnimation(this.state.animation)} ${this.getBackground()}>
-            <div class="container py-4">
+            <div class="${this.state?.wide===true?'':'container'} py-4">
                 ${this.getTitles()}
                 ${this.swiper.render(this.state.swipers, this.state.context)}
             </div>

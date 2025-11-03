@@ -26,7 +26,7 @@ export class CjSwiper {
                 let slide = /*html*/`
                 <div class="swiper-slide">
                 <figure class="image ${item.image?.ratio!=undefined?item.image.ratio:'is-16by9'}">
-                    ${item.image?.src!=undefined?item.image.src.includes("https://www.youtu")?this. #getYoutube(item.image.src):`<img src="${item.image.src}" />`:''}
+                    ${item.image?.src!=undefined?item.image.src.includes("https://www.youtu")?this. #getYoutube(item.image.src):item.image?.href!=undefined?`<a href="${item.image.href}" ><img src="${item.image.src}" /></a>`:`<img src="${item.image.src}" />`:''}
                     </figure>
                 </div>
                 ${item.content!=undefined?`
@@ -170,7 +170,7 @@ export class CjSwiper {
                 </figure>`:''}
                 <div class="media-content">
                     <div ${this.#getClasses(["content"], item.description?.classList)}>
-                        ${item.review?.rating!=undefined?`<span class="icon-text">${this.#getStars(item.review.rating)}${item.review?.text[this.context.lang]!=undefined?`<span>${item.review?.text[this.context.lang]}</span>`:''}</span>`:''}
+                        ${item.review?.rating!=undefined?`<span class="icon-text">${this.#getStars(item.review.rating)}${item.review?.text?.[this.context.lang]!==undefined?`<span>${item.review?.text[this.context.lang]}</span>`:''}</span>`:''}
                         ${item.description?.text[this.context.lang]!=undefined?`${this.md.render(item.description.text[this.context.lang])}`:''}
                     </div>
                 </div>
